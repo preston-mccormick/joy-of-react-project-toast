@@ -22,6 +22,30 @@ function ToastProvider({ children }) {
     );
   }
 
+  function dismissAllToasts() {
+    setToasts([]);
+  }
+
+  // Listen for the escape key and dismiss all toasts.
+  React.useEffect(() => {
+    // Don't listen for the escape key, if there are no toasts.
+    if (toasts.length === 0) {
+      return;
+    }
+
+    function handleEscapeKey(event) {
+      if (event.key === "Escape") {
+        dismissAllToasts();
+      }
+    }
+
+    window.addEventListener("keydown", handleEscapeKey);
+
+    return () => {
+      window.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [toasts]);
+
   return (
     <ToastContext.Provider value={{ toasts, popToast, dismissToast }}>
       {children}
