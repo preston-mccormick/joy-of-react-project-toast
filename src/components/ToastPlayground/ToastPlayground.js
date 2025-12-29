@@ -1,35 +1,23 @@
 import React from "react";
 import Button from "../Button";
 import styles from "./ToastPlayground.module.css";
-import ToastShelf from "../ToastShelf";
+import { ToastContext } from "../ToastProvider";
 
 const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 
 function ToastPlayground() {
   const [message, setMessage] = React.useState("");
   const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
-  const [toasts, setToasts] = React.useState([]);
   const messageInputRef = React.useRef(null);
-  //console.log({ variant, message, toasts });
 
-  function popToast() {
-    const newToast = {
-      id: crypto.randomUUID(),
-      message,
-      variant,
-      handleClose: () => dismissToast(newToast.id),
-    };
-    setToasts([...toasts, newToast]);
+  const { popToast } = React.useContext(ToastContext);
+
+  function handlePopToast(e) {
+    e.preventDefault();
+    popToast(message, variant);
     setMessage("");
     setVariant(VARIANT_OPTIONS[0]);
-    // focus the message input
     messageInputRef.current?.focus();
-  }
-
-  function dismissToast(id) {
-    setToasts((currentToasts) =>
-      currentToasts.filter((toast) => toast.id !== id)
-    );
   }
 
   return (
@@ -81,11 +69,10 @@ function ToastPlayground() {
         <div className={styles.row}>
           <div className={styles.label} />
           <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
-            <Button onClick={popToast}>Pop Toast!</Button>
+            <Button onClick={handlePopToast}>Pop Toast!</Button>
           </div>
         </div>
       </div>
-      <ToastShelf toasts={toasts} />
     </div>
   );
 }
