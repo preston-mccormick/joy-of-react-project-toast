@@ -1,5 +1,5 @@
 {
   "singleQuote": false,
-  "jsxSingleQuote": false
+  "jsxSingleQuote": false,
+  "endOfLine": "auto"
 }
-
