@@ -1,5 +1,6 @@
 import React from "react";
 import ToastShelf from "../ToastShelf";
+import useKeys from "../../hooks/useKeys";
 
 export const ToastContext = React.createContext();
 
@@ -22,29 +23,12 @@ function ToastProvider({ children }) {
     );
   }
 
-  function dismissAllToasts() {
-    setToasts([]);
-  }
-
-  // Listen for the escape key and dismiss all toasts.
-  React.useEffect(() => {
-    // Don't listen for the escape key, if there are no toasts.
-    if (toasts.length === 0) {
-      return;
-    }
-
-    function handleEscapeKey(event) {
-      if (event.key === "Escape") {
-        dismissAllToasts();
-      }
-    }
-
-    window.addEventListener("keydown", handleEscapeKey);
-
-    return () => {
-      window.removeEventListener("keydown", handleEscapeKey);
-    };
-  }, [toasts]);
+  // Dismiss all toasts when the escape key is pressed.
+  useKeys({
+    keys: ["Escape"],
+    callback: () => setToasts([]),
+    enabled: toasts.length > 0,
+  });
 
   return (
     <ToastContext.Provider value={{ toasts, popToast, dismissToast }}>
