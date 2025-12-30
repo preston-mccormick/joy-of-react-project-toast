@@ -6,6 +6,8 @@ function useKeys({ keys, callback, enabled = true }) {
       return;
     }
 
+    //console.log("useKeys", { keys, callback, enabled });
+
     function handleKeyDown(event) {
       if (keys.includes(event.key)) {
         callback();

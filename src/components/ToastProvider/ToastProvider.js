@@ -4,6 +4,8 @@ import useKeys from "../../hooks/useKeys";
 
 export const ToastContext = React.createContext();
 
+const DISMISS_KEYS = ["Escape"];
+
 function ToastProvider({ children }) {
   const [toasts, setToasts] = React.useState([]);
 
@@ -23,10 +25,14 @@ function ToastProvider({ children }) {
     );
   }
 
+  const dismissAllToasts = React.useCallback(() => {
+    setToasts([]);
+  }, []);
+
   // Dismiss all toasts when the escape key is pressed.
   useKeys({
-    keys: ["Escape"],
-    callback: () => setToasts([]),
+    keys: DISMISS_KEYS,
+    callback: dismissAllToasts,
     enabled: toasts.length > 0,
   });
 
