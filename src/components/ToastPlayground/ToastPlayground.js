@@ -2,6 +2,7 @@ import React from "react";
 import Button from "../Button";
 import styles from "./ToastPlayground.module.css";
 import { ToastContext } from "../ToastProvider";
+import toastImage from "../../../assets/toast.png";
 
 const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 
@@ -23,7 +24,7 @@ function ToastPlayground() {
   return (
     <div className={styles.wrapper}>
       <header>
-        <img alt="Cute toast mascot" src="/toast.png" />
+        <img alt="Cute toast mascot" src={toastImage} />
         <h1>Toast Playground</h1>
       </header>
 
